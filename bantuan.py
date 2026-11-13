@@ -9,6 +9,10 @@ def garis():
     print("=" * 50)
 
 
+
+
+
+
 def judul(teks):
     garis()
     print(teks.center(50))
