@@ -1,10 +1,11 @@
-from bantuan import judul, jeda, ambil_data
+from bantuan import judul, jeda, ambil_data, clear
 
 # =====================================
 # RIWAYAT LATIHAN
 # =====================================
 
 def tampilkan_riwayat(id_pengguna):
+    clear()
     judul("RIWAYAT LATIHAN")
 
     daftar = ambil_data("""
@@ -52,6 +53,7 @@ def tampilkan_riwayat(id_pengguna):
 
 
 def detail_riwayat(id_pengguna, id_riwayat):
+    clear()
     judul("DETAIL RIWAYAT LATIHAN")
 
     data = ambil_data("""
