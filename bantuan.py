@@ -8,20 +8,13 @@ from koneksi import buka_koneksi
 def garis():
     print("=" * 50)
 
-
-
-
-
-
 def judul(teks):
     garis()
     print(teks.center(50))
     garis()
 
-
 def jeda():
     input("\nTekan ENTER untuk kembali...")
-
 
 def ambil_data(sql, data=()):
     koneksi = buka_koneksi()
@@ -39,7 +32,6 @@ def ambil_data(sql, data=()):
     finally:
         cursor.close()
         koneksi.close()
-
 
 def jalankan(sql, data=()):
     koneksi = buka_koneksi()
