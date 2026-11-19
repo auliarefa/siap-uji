@@ -1,13 +1,14 @@
 import psycopg2
 
 from koneksi import buka_koneksi
-from bantuan import garis, judul, jeda, ambil_data, jalankan               
+from bantuan import garis, judul, jeda, ambil_data, jalankan,clear              
 
 # =====================================
 # MENAMPILKAN DAFTAR MATERI
 # =====================================
 
 def tampilkan_materi():
+    clear()
     judul("DAFTAR MATERI")
 
     daftar = ambil_data("""
@@ -35,6 +36,7 @@ def tampilkan_materi():
 # =====================================
 
 def tambah_materi():
+    clear()
     judul("TAMBAH MATERI")
 
     nama = input("Nama Materi : ")
@@ -60,6 +62,7 @@ def tambah_materi():
 
 
 def ubah_materi():
+    clear()
     judul("UBAH MATERI")
 
     id_materi = input("ID Materi : ")
@@ -101,6 +104,7 @@ def ubah_materi():
 
 
 def hapus_materi():
+    clear()
     judul("HAPUS MATERI")
 
     id_materi = input("ID Materi : ")
@@ -140,6 +144,7 @@ def hapus_materi():
 
 def menu_materi():
     while True:
+        clear()
         judul("PENGELOLAAN MATERI")
 
         print("[1] Lihat Daftar Materi")
@@ -178,6 +183,7 @@ def menu_materi():
 # =====================================
 
 def tampilkan_daftar_soal():
+    clear()
     judul("DAFTAR SOAL")
 
     daftar = ambil_data("""
@@ -207,6 +213,7 @@ def tampilkan_daftar_soal():
 
 
 def lihat_soal_materi():
+    clear()
     daftar = tampilkan_daftar_soal()
 
     if len(daftar) == 0:
@@ -215,6 +222,7 @@ def lihat_soal_materi():
         return
 
     id_materi = input("\nID Materi: ")
+    clear()
 
     soal = ambil_data("""
         SELECT
@@ -240,6 +248,7 @@ def lihat_soal_materi():
 
     print("\n[1] Kembali")
     input("Pilih menu: ")
+    clear()
 
 
 # =====================================
@@ -247,6 +256,7 @@ def lihat_soal_materi():
 # =====================================
 
 def tambah_soal():
+    clear()
     judul("TAMBAH SOAL")
 
     tampilkan_materi()
@@ -290,6 +300,7 @@ def tambah_soal():
 
 
 def ubah_soal():
+    clear()
     judul("UBAH SOAL")
 
     id_soal = input("ID Soal : ")
@@ -349,6 +360,7 @@ def ubah_soal():
 
 
 def hapus_soal():
+    clear()
     judul("HAPUS SOAL")
 
     id_soal = input("ID Soal : ")
@@ -387,6 +399,7 @@ def hapus_soal():
 
 
 def menu_soal():
+    clear()
     while True:
         judul("PENGELOLAAN BANK SOAL")
 
@@ -424,6 +437,7 @@ def menu_soal():
 
 def menu_admin():
     while True:
+        clear()
         judul("MENU ADMIN")
 
         print("Selamat Datang, Admin!")
@@ -434,6 +448,7 @@ def menu_admin():
         print("[3] Logout")
 
         pilih = input("\nPilih menu: ")
+        clear()
 
         if pilih == "1":
             menu_materi()
@@ -524,6 +539,7 @@ def simpan_hasil(id_pengguna, id_materi, benar, salah, daftar_jawaban):
 
 def mulai_latihan(id_pengguna):
     while True:
+        clear()
         judul("PILIH MATERI")
 
         daftar = tampilkan_materi()

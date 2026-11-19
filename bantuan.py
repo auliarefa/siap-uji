@@ -1,5 +1,9 @@
 import psycopg2
 from koneksi import buka_koneksi
+import os
+
+def clear():
+    os.system('cls')
 
 # =====================================
 # FUNGSI BANTUAN

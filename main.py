@@ -1,10 +1,8 @@
 import psycopg2
 
 from koneksi import buka_koneksi
-from bantuan import garis, judul, jeda              
+from bantuan import garis, judul, jeda, clear              
 from akun import registrasi, login                          
-from riwayat import tampilkan_riwayat
-from latihan import mulai_latihan
 from riwayat import tampilkan_riwayat
 from latihan import mulai_latihan, menu_admin
 
@@ -17,6 +15,7 @@ def menu_mahasiswa(data_pengguna):
     nama = data_pengguna[1]
 
     while True:
+        clear()
         judul("MENU MAHASISWA")
 
         print("Selamat Datang,", nama)
@@ -56,6 +55,7 @@ def menu_mahasiswa(data_pengguna):
 
 def menu_awal():
     while True:
+        clear()
         judul("SIAPUJI")
         print("PROGRAM EVALUASI KESIAPAN UJIAN".center(50))
 
@@ -98,7 +98,6 @@ def menu_awal():
         else:
             print("Pilihan tidak tersedia.")
             jeda()
-
 
 # =====================================
 # MENJALANKAN PROGRAM

@@ -1,6 +1,6 @@
 import hashlib
 import secrets
-from bantuan import garis, judul, jeda, ambil_data, jalankan 
+from bantuan import garis, judul, jeda, ambil_data, jalankan, clear
 
 # =====================================
 # PASSWORD
@@ -37,6 +37,7 @@ def periksa_password(password, password_hash):
 
 def registrasi():
     while True:
+        clear()
         judul("REGISTRASI MAHASISWA")
 
         print("Silakan isi data berikut:\n")
@@ -99,6 +100,7 @@ def registrasi():
 # =====================================
 
 def login():
+    clear()
     judul("LOGIN SIAPUJI")
 
     print("Masukkan data akun Anda:\n")
