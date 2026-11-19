@@ -31,52 +31,6 @@ def periksa_password(password, password_hash):
 
     return hasil.hex() == hash_asli
 
-
-# =====================================
-# MEMBUAT AKUN ADMIN
-# =====================================
-
-def buat_akun_admin():
-    admin = ambil_data("""
-        SELECT id_pengguna
-        FROM pengguna
-        JOIN role_pengguna
-        ON pengguna.id_role = role_pengguna.id_role
-        WHERE nama_role = 'Admin'
-    """)
-
-    if len(admin) == 0:
-        judul("BUAT AKUN ADMIN")
-
-        print("Belum ada akun Admin.")
-        print("Silakan buat akun Admin terlebih dahulu.\n")
-
-        nama = input("Nama Admin : ")
-        username = input("Username   : ")
-        password = input("Password   : ")
-
-        id_role = ambil_data("""
-            SELECT id_role
-            FROM role_pengguna
-            WHERE nama_role = 'Admin'
-        """)
-
-        if len(id_role) == 0:
-            print("Role Admin belum tersedia.")
-            return
-
-        password_hash = buat_hash(password)
-
-        jalankan("""
-            INSERT INTO pengguna
-            (nama_pengguna, username, password_hash, id_role)
-            VALUES (%s, %s, %s, %s)
-        """, (nama, username, password_hash, id_role[0][0]))
-
-        print("Akun Admin berhasil dibuat.")
-        jeda()
-
-
 # =====================================
 # REGISTRASI MAHASISWA
 # =====================================

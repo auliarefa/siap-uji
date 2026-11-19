@@ -2,7 +2,7 @@ import psycopg2
 
 from koneksi import buka_koneksi
 from bantuan import garis, judul, jeda              
-from akun import buat_akun_admin, registrasi, login                          
+from akun import registrasi, login                          
 from riwayat import tampilkan_riwayat
 from latihan import mulai_latihan
 from riwayat import tampilkan_riwayat
@@ -111,7 +111,6 @@ def main():
 
         print("Koneksi database berhasil!")
 
-        buat_akun_admin()
         menu_awal()
 
     except psycopg2.Error as error:
