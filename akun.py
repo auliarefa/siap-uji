@@ -1,18 +1,6 @@
 import hashlib
 import secrets
-
 from bantuan import garis, judul, jeda, ambil_data, jalankan 
-
-
-
-
-
-
-
-
-
-
-
 
 # =====================================
 # PASSWORD
