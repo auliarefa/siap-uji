@@ -43,6 +43,12 @@ jawaban_pengguna CHAR(1),
 status_jawaban BOOLEAN
 );
 
+ALTER TABLE materi
+ADD COLUMN status_aktif BOOLEAN DEFAULT TRUE;
+
+ALTER TABLE soal
+ADD COLUMN status_aktif BOOLEAN DEFAULT TRUE;
+
 INSERT INTO role_pengguna (nama_role)
 VALUES
 ('Admin'),
@@ -137,6 +143,12 @@ VALUES
 	'A',
 	'Break digunakan untuk menghentikan perulangan yang sedang berjalan.'
 	);
+
+INSERT INTO pengguna (id_pengguna, nama_pengguna, username, password_hash, id_role)
+VALUES
+(1,'dini ramadhani', 'dini','admin1',1),
+(2,'aulia reva putri', 'reva','admin2',1),
+(3,'nadia azzahra', 'nadia','admin3',1);
 
 SELECT
     s.id_soal,
