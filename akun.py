@@ -235,6 +235,7 @@ def login():
 
     if periksa_password(password, data[0][2]):
         print("Login berhasil!")
+        jeda()
         return (data[0][0], data[0][1], data[0][3])
 
     print("Password salah.")

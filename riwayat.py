@@ -51,6 +51,10 @@ def tampilkan_riwayat(id_pengguna):
     elif pilih == "2":
         return
 
+    else:
+        print("Pilihan tidak tersedia.")
+        jeda()
+        tampilkan_riwayat(id_pengguna)
 
 def detail_riwayat(id_pengguna, id_riwayat):
     clear()
@@ -88,4 +92,13 @@ def detail_riwayat(id_pengguna, id_riwayat):
     print("Nilai           :", format(float(riwayat[6]), ".2f"))
 
     print("\n[1] Kembali ke Riwayat Latihan")
-    input("\nPilih menu: ")
+
+    while True:
+        pilih = input("\nPilih menu: ")
+
+        if pilih == "1":
+            return
+
+        else:
+            print("Pilihan tidak tersedia.")
+          
