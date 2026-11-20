@@ -37,38 +37,65 @@ def periksa_password(password, password_hash):
 
 def registrasi():
     while True:
-        clear()
-        judul("REGISTRASI MAHASISWA")
-
-        print("Silakan isi data berikut:\n")
-
         while True:
+            clear()
+            judul("REGISTRASI MAHASISWA")
+
+            print("Silakan isi data berikut:\n")
+
             nama = input("Nama Lengkap : ").strip()
 
             if not nama:
-                clear()
-                judul("REGISTRASI MAHASISWA")
-                print("Silakan isi data berikut:\n")
                 print("Nama tidak boleh kosong.")
+                jeda()
                 continue
 
             if not all(huruf.isalpha() or huruf == " " for huruf in nama):
-                clear()
-                judul("REGISTRASI MAHASISWA")
-                print("Silakan isi data berikut:\n")
                 print("Nama hanya boleh berisi huruf dan spasi.")
+                jeda()
                 continue
 
             nama = nama.title()
             break
 
         clear()
-        judul("REGISTRASI MAHASISWA")
 
-        print("Silakan isi data berikut:\n")
-        print("Nama Lengkap :", nama)
+        pesan_error = ""
 
-        username = input("Username     : ")
+        while True:
+            clear()
+            judul("REGISTRASI MAHASISWA")
+
+            print("Silakan isi data berikut:\n")
+            print("Ketentuan Username:")
+            print("- Minimal 4 karakter")
+            print("- Maksimal 20 karakter")
+            print("- Menggunakan huruf, angka, dan underscore (_)")
+            print("- Tidak boleh menggunakan spasi\n")
+
+            print("Nama Lengkap :", nama)
+
+            username = input("Username     : ").strip()
+
+            if not username:
+                pesan_error = "Username tidak boleh kosong."
+
+            elif len(username) < 4 or len(username) > 20:
+                pesan_error = "Username harus terdiri dari 4-20 karakter."
+
+            elif any(huruf.isspace() for huruf in username):
+                pesan_error = "Username tidak boleh menggunakan spasi."
+
+            elif not username.replace("_", "").isalnum():
+                pesan_error = "Username hanya boleh berisi huruf, angka, dan underscore (_)."
+
+            else:
+                break
+
+            print(pesan_error)
+            input("Tekan ENTER untuk mencoba lagi...")
+            continue
+        
         password = input("Password     : ")
 
         garis()
