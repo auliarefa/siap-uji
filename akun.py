@@ -46,12 +46,12 @@ def registrasi():
             nama = input("Nama Lengkap : ").strip()
 
             if not nama:
-                print("Nama tidak boleh kosong.")
+                print("\nNama tidak boleh kosong.")
                 jeda()
                 continue
 
             if not all(huruf.isalpha() or huruf == " " for huruf in nama):
-                print("Nama hanya boleh berisi huruf dan spasi.")
+                print("\nNama hanya boleh berisi huruf dan spasi.")
                 jeda()
                 continue
 
@@ -68,8 +68,8 @@ def registrasi():
 
             print("Silakan isi data berikut:\n")
             print("Ketentuan Username:")
-            print("- Minimal 4 karakter")
-            print("- Maksimal 20 karakter")
+            print("- Diharuskan 4-20 karakter")
+            print("- Mengandung minimal 1 huruf")
             print("- Menggunakan huruf, angka, dan underscore (_)")
             print("- Tidak boleh menggunakan spasi\n")
 
@@ -83,6 +83,9 @@ def registrasi():
             elif len(username) < 4 or len(username) > 20:
                 pesan_error = "Username harus terdiri dari 4-20 karakter."
 
+            elif not any(huruf.isalpha() for huruf in username):
+                pesan_error = "Username harus mengandung minimal satu huruf."
+
             elif any(huruf.isspace() for huruf in username):
                 pesan_error = "Username tidak boleh menggunakan spasi."
 
@@ -90,13 +93,63 @@ def registrasi():
                 pesan_error = "Username hanya boleh berisi huruf, angka, dan underscore (_)."
 
             else:
+                username_ada = ambil_data("""
+                    SELECT id_pengguna
+                    FROM pengguna
+                    WHERE username = %s
+                """, (username,))
+
+
+
+                if len(username_ada) > 0:
+                    pesan_error = "Username sudah digunakan."
+
+                else:
+                    break
+        
+            print("\n" + pesan_error)
+            input("\nTekan ENTER untuk mencoba lagi...")
+        
+
+        while True:
+            clear()
+            judul("REGISTRASI MAHASISWA")
+            print("Silakan isi data berikut:")
+            print("\nKetentuan Password:")
+            print("- Terdiri dari 6-20 karakter")
+            print("- Mengandung minimal 1 huruf besar (A-Z)")
+            print("- Mengandung minimal 1 huruf kecil (a-z)")
+            print("- Mengandung minimal 1 angka atau simbol")
+            print("- Tidak boleh menggunakan spasi\n")
+
+            print("Nama Lengkap :", nama)
+            print("Username :", username)
+
+            password = input("Password     : ")
+
+            if not password:
+                pesan_error = "password tidak boleh kosong."
+
+            elif len(password) < 6 or len(password) > 20:
+                pesan_error = "Password harus terdiri dari 6-20 karakter."
+
+            elif not any(huruf.isupper() for huruf in password):
+                pesan_error = "Password harus mengandung minimal 1 huruf besar."
+
+            elif not any(huruf.islower() for huruf in password):
+                pesan_error = "Password harus mengandung minimal 1 huruf kecil."
+
+            elif any(huruf.isspace() for huruf in password):
+                pesan_error = "Password tidak boleh menggunakan spasi."
+
+            elif not any(huruf.isdigit() or not huruf.isalnum() for huruf in password):
+                pesan_error = "Password harus mengandung minimal 1 angka atau simbol."
+
+            else:
                 break
 
-            print(pesan_error)
-            input("Tekan ENTER untuk mencoba lagi...")
-            continue
-        
-        password = input("Password     : ")
+            print("\n" + pesan_error)
+            input("\nTekan ENTER untuk mencoba lagi...")
 
         garis()
         print("[1] Daftar")
@@ -105,17 +158,6 @@ def registrasi():
         pilih = input("\nPilih menu: ")
 
         if pilih == "1":
-            username_ada = ambil_data("""
-                SELECT id_pengguna
-                FROM pengguna
-                WHERE username = %s
-            """, (username,))
-
-            if len(username_ada) > 0:
-                print("Username sudah digunakan.")
-                jeda()
-                continue
-
             role = ambil_data("""
                 SELECT id_role
                 FROM role_pengguna
@@ -138,7 +180,7 @@ def registrasi():
             print("Registrasi berhasil!")
             input("\nTekan ENTER untuk melanjutkan ke login...")
             return True
-        
+
         elif pilih == "2":
             return False
 
