@@ -84,11 +84,11 @@ def registrasi():
             """, (nama, username, password_hash, role[0][0]))
 
             print("Registrasi berhasil!")
-            jeda()
-            break
-
+            input("\nTekan ENTER untuk melanjutkan ke login...")
+            return True
+        
         elif pilih == "2":
-            break
+            return False
 
         else:
             print("Pilihan tidak tersedia.")

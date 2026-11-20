@@ -71,7 +71,16 @@ def menu_awal():
         pilih = input("Pilih menu: ")
 
         if pilih == "1":
-            registrasi()
+            berhasil = registrasi()
+
+            if berhasil:
+                pengguna = login()
+
+                if pengguna is not None:
+                    if pengguna[2] == "Admin":
+                        menu_admin()
+                    elif pengguna[2] == "Mahasiswa":
+                        menu_mahasiswa(pengguna)
 
         elif pilih == "2":
             pengguna = login()
@@ -79,7 +88,6 @@ def menu_awal():
             if pengguna is not None:
                 if pengguna[2] == "Admin":
                     menu_admin()
-
                 elif pengguna[2] == "Mahasiswa":
                     menu_mahasiswa(pengguna)
 
@@ -98,7 +106,6 @@ def menu_awal():
         else:
             print("Pilihan tidak tersedia.")
             jeda()
-
 # =====================================
 # MENJALANKAN PROGRAM
 # =====================================
