@@ -42,7 +42,32 @@ def registrasi():
 
         print("Silakan isi data berikut:\n")
 
-        nama = input("Nama Lengkap : ")
+        while True:
+            nama = input("Nama Lengkap : ").strip()
+
+            if not nama:
+                clear()
+                judul("REGISTRASI MAHASISWA")
+                print("Silakan isi data berikut:\n")
+                print("Nama tidak boleh kosong.")
+                continue
+
+            if not all(huruf.isalpha() or huruf == " " for huruf in nama):
+                clear()
+                judul("REGISTRASI MAHASISWA")
+                print("Silakan isi data berikut:\n")
+                print("Nama hanya boleh berisi huruf dan spasi.")
+                continue
+
+            nama = nama.title()
+            break
+
+        clear()
+        judul("REGISTRASI MAHASISWA")
+
+        print("Silakan isi data berikut:\n")
+        print("Nama Lengkap :", nama)
+
         username = input("Username     : ")
         password = input("Password     : ")
 
