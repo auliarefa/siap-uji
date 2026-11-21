@@ -743,7 +743,19 @@ def mulai_latihan(id_pengguna):
             jeda()
             continue
 
-        id_materi = input("Masukkan ID Materi: ")
+        id_materi = input("Masukkan ID Materi: ").strip()
+
+        if id_materi == "":
+            print("\nID materi tidak boleh kosong.")
+            jeda()
+            continue
+
+        if not id_materi.isdigit():
+            print("\nID materi harus berupa angka.")
+            jeda()
+            continue
+
+        id_materi = int(id_materi)
 
         materi = ambil_data("""
             SELECT nama_materi
@@ -872,18 +884,26 @@ def mulai_latihan(id_pengguna):
 # PRIORITAS BELAJAR
 # =====================================
 
+
 def tampilkan_prioritas(id_pengguna):
     clear()
     judul("PRIORITAS BELAJAR")
 
     daftar = ambil_data("""
-        SELECT materi.nama_materi, AVG(riwayat_latihan.nilai)
+        SELECT
+            materi.nama_materi,
+            riwayat_latihan.nilai
         FROM riwayat_latihan
         JOIN materi
         ON riwayat_latihan.id_materi = materi.id_materi
         WHERE riwayat_latihan.id_pengguna = %s
-        GROUP BY materi.id_materi, materi.nama_materi
-        ORDER BY AVG(riwayat_latihan.nilai)
+        AND riwayat_latihan.id_riwayat = (
+            SELECT MAX(r2.id_riwayat)
+            FROM riwayat_latihan r2
+            WHERE r2.id_pengguna = riwayat_latihan.id_pengguna
+            AND r2.id_materi = riwayat_latihan.id_materi
+        )
+        ORDER BY riwayat_latihan.nilai ASC
     """, (id_pengguna,))
 
     if len(daftar) == 0:
