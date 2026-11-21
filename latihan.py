@@ -866,7 +866,7 @@ def mulai_latihan(id_pengguna):
         print("[2] Kembali ke Menu Mahasiswa")
 
         while True:
-            pilih = input("\nPilih menu: ")
+            pilih = input("\nPilih menu: ").strip()
 
             if pilih == "1":
                 tampilkan_prioritas(id_pengguna)
@@ -876,9 +876,35 @@ def mulai_latihan(id_pengguna):
             elif pilih == "2":
                 return
 
+            elif pilih == "":
+                print("\nPilihan tidak boleh kosong.")  
+                jeda()
+                clear()
+                judul("HASIL LATIHAN")
+
+                print(f"Materi         : {nama_materi}")
+                print(f"\nJumlah Soal    : {jumlah_soal}")
+                print(f"Jawaban Benar  : {benar}")
+                print(f"Jawaban Salah  : {salah}")
+                print(f"\nNilai          : {nilai:.2f}")
+                print(f"\nKategori Penguasaan: {kategori}")
+                print("\n[1] Lihat Prioritas Belajar")
+                print("[2] Kembali ke Menu Mahasiswa")
+
             else:
                 print("\nPilihan tidak tersedia.")
                 jeda()
+                clear()
+                judul("HASIL LATIHAN")
+
+                print(f"Materi         : {nama_materi}")
+                print(f"\nJumlah Soal    : {jumlah_soal}")
+                print(f"Jawaban Benar  : {benar}")
+                print(f"Jawaban Salah  : {salah}")
+                print(f"\nNilai          : {nilai:.2f}")
+                print(f"\nKategori Penguasaan: {kategori}")
+                print("\n[1] Lihat Prioritas Belajar")
+                print("[2] Kembali ke Menu Mahasiswa")
 
 # =====================================
 # PRIORITAS BELAJAR
