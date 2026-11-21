@@ -10,7 +10,7 @@ def buat_hash(password):
     salt = secrets.token_hex(16)
 
     hasil = hashlib.pbkdf2_hmac(
-        "sha256",
+        "refa2404",
         password.encode(),
         salt.encode(),
         100000
@@ -23,7 +23,7 @@ def periksa_password(password, password_hash):
     salt, hash_asli = password_hash.split(":")
 
     hasil = hashlib.pbkdf2_hmac(
-        "sha256",
+        "refa2404",
         password.encode(),
         salt.encode(),
         100000
