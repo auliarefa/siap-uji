@@ -67,47 +67,85 @@ def tambah_materi():
 
     jeda()
 
-
 def ubah_materi():
-    clear()
-    judul("UBAH MATERI")
+    while True:
+        clear()
+        judul("UBAH MATERI")
 
-    id_materi = input("ID Materi : ")
+        daftar = ambil_data("""
+            SELECT id_materi, nama_materi
+            FROM materi
+            ORDER BY id_materi
+        """)
 
-    data = ambil_data("""
-        SELECT nama_materi
-        FROM materi
-        WHERE id_materi = %s
-    """, (id_materi,))
+        print("+----+--------------------------+")
+        print("| No | Nama Materi              |")
+        print("+----+--------------------------+")
 
-    if len(data) == 0:
-        print("Materi tidak ditemukan.")
-        jeda()
-        return
+        for materi in daftar:
+            print("| {:<2} | {:<24} |".format(
+                materi[0], materi[1]
+            ))
 
-    print("Nama Materi Lama:", data[0][0])
+        print("+----+--------------------------+")
 
-    nama_baru = input("Nama Materi Baru : ")
 
-    garis()
-    print("[1] Simpan Perubahan")
-    print("[2] Batal")
+        id_materi = input("ID Materi : ").strip()
 
-    pilih = input("\nPilih menu: ")
+        if not id_materi:
+            print("\nID materi tidak boleh kosong.")
+            jeda()
+            clear()
+            judul("UBAH MATERI")
+            return
 
-    if pilih == "1":
-        jalankan("""
-            UPDATE materi
-            SET nama_materi = %s
+        if not id_materi.isdigit():
+            print("\nID materi harus berupa angka.")
+            jeda()
+            return
+
+        data = ambil_data("""
+            SELECT nama_materi
+            FROM materi
             WHERE id_materi = %s
-        """, (nama_baru, id_materi))
+        """, (id_materi,))
 
-        print("Materi berhasil diubah.")
+        if len(data) == 0:
+            print("\nMateri tidak ditemukan.")
+            jeda()
+            continue
 
-    else:
-        print("Perubahan dibatalkan.")
+        print("Nama Materi Lama:", data[0][0])
 
-    jeda()
+        nama_baru = input("Nama Materi Baru : ").strip()
+
+        if not nama_baru:
+            print("\nNama materi baru tidak boleh kosong.")
+            jeda()
+            return
+
+        garis()
+        print("[1] Simpan Perubahan")
+        print("[2] Batal")
+
+        pilih = input("\nPilih menu: ").strip()
+
+        if pilih == "1":
+            jalankan("""
+                UPDATE materi
+                SET nama_materi = %s
+                WHERE id_materi = %s
+            """, (nama_baru, id_materi))
+
+            print("Materi berhasil diubah.")
+
+        elif pilih == "2":
+            print("Perubahan dibatalkan.")
+
+        else:
+            print("Pilihan tidak tersedia.")
+
+        jeda()
 
 
 def hapus_materi():
@@ -229,7 +267,6 @@ def menu_materi():
             tambah_materi()
 
         elif pilih == "3":
-            tampilkan_materi(semua=True)
             ubah_materi()
 
         elif pilih == "4":
