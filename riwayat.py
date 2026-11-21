@@ -45,7 +45,19 @@ def tampilkan_riwayat(id_pengguna):
         pilih = input("\nPilih menu: ")
 
         if pilih == "1":
-            id_riwayat = input("Masukkan ID Riwayat: ")
+            id_riwayat = input("\nPilih ID Riwayat: ").strip()
+
+            if not id_riwayat:
+                print("\nID riwayat tidak boleh kosong.")
+                jeda()
+                continue
+
+            if not id_riwayat.isdigit():
+                print("\nID riwayat harus berupa angka.")
+                jeda()
+                continue
+
+            id_riwayat = int(id_riwayat)
             detail_riwayat(id_pengguna, id_riwayat)
 
         elif pilih == "2":
