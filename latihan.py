@@ -729,11 +729,8 @@ def simpan_hasil(id_pengguna, id_materi, benar, salah, daftar_jawaban):
 def mulai_latihan(id_pengguna):
     while True:
         clear()
-        judul("PILIH MATERI")
-
         daftar = tampilkan_materi()
-
-        print("\n[1] Pilih Materi")
+        print("[1] Pilih Materi")
         print("[2] Kembali")
 
         pilih = input("\nMasukkan pilihan: ")
@@ -784,6 +781,7 @@ def mulai_latihan(id_pengguna):
     daftar_jawaban = []
 
     for nomor, data in enumerate(soal, start=1):
+        clear()
         judul("LATIHAN SIAPUJI")
 
         print("Materi :", nama_materi)
@@ -796,11 +794,26 @@ def mulai_latihan(id_pengguna):
         print("C.", data[4])
         print("D.", data[5])
 
-        jawaban = input("\nJawaban (A/B/C/D): ").upper()
+        while True:
+            jawaban = input("\nJawaban (A/B/C/D): ").upper()
+            if jawaban in ["A", "B", "C", "D"]:
+                break
 
-        while jawaban not in ["A", "B", "C", "D"]:
-            print("Masukkan A, B, C, atau D.")
-            jawaban = input("Jawaban: ").upper()
+            print("\nPilihan tidak valid. Silakan masukkan A, B, C, atau D.")
+            input("\nTekan ENTER untuk mencoba lagi...")
+
+            clear()
+
+            judul("LATIHAN SIAPUJI")
+            print("Materi :", nama_materi)
+            print("Soal   :", nomor, "dari", len(soal))
+            print("\n" + "-" * 50)
+
+            print(data[1])
+            print("\nA.", data[2])
+            print("B.", data[3])
+            print("C.", data[4])
+            print("D.", data[5])
 
         if jawaban == data[6]:
             benar += 1
@@ -826,6 +839,7 @@ def mulai_latihan(id_pengguna):
     nilai = benar / jumlah_soal * 100
     kategori = tentukan_kategori(nilai)
 
+    clear()
     judul("HASIL LATIHAN")
 
     print("Materi         :", nama_materi)
@@ -839,18 +853,28 @@ def mulai_latihan(id_pengguna):
         print("\n[1] Lihat Prioritas Belajar")
         print("[2] Kembali ke Menu Mahasiswa")
 
-        pilih = input("\nPilih menu: ")
+        while True:
+            clear()
+            pilih = input("\nPilih menu: ")
 
-        if pilih == "1":
-            tampilkan_prioritas(id_pengguna)
-            jeda()
+            if pilih == "1":
+                tampilkan_prioritas(id_pengguna)
+                jeda()
+                break
 
+            elif pilih == "2":
+                return
+
+            else:
+                print("\nPilihan tidak tersedia.")
+                jeda()
 
 # =====================================
 # PRIORITAS BELAJAR
 # =====================================
 
 def tampilkan_prioritas(id_pengguna):
+    clear()
     judul("PRIORITAS BELAJAR")
 
     daftar = ambil_data("""
