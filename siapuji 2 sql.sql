@@ -146,13 +146,7 @@ VALUES
 	'A',
 	'Break digunakan untuk menghentikan perulangan yang sedang berjalan.'
 	);
-
-INSERT INTO pengguna (id_pengguna, nama_pengguna, username, password_hash, id_role)
-VALUES
-(1,'dini ramadhani', 'dini','admin1',1),
-(2,'aulia reva putri', 'reva','admin2',1),
-(3,'nadia azzahra', 'nadia','admin3',1);
-
+	
 SELECT
     s.id_soal,
     m.nama_materi,
@@ -188,6 +182,26 @@ SELECT * FROM materi;
 SELECT * FROM soal;
 SELECT * FROM riwayat_latihan;
 SELECT * FROM detail_latihan;
+
+SELECT setval(
+    pg_get_serial_sequence('public.pengguna', 'id_pengguna'),
+    COALESCE((SELECT MAX(id_pengguna) FROM public.pengguna), 1),
+    EXISTS(SELECT 1 FROM public.pengguna)
+);
+
+SELECT MAX(id_pengguna) FROM pengguna;
+
+SELECT column_name, column_default
+FROM information_schema.columns
+WHERE table_name = 'pengguna'
+AND column_name = 'id_pengguna';
+
+SELECT setval(
+    pg_get_serial_sequence('public.pengguna', 'id_pengguna'),
+    COALESCE(MAX(id_pengguna), 1),
+    MAX(id_pengguna) IS NOT NULL
+)
+FROM public.pengguna;
 
 TRUNCATE TABLE pengguna RESTART IDENTITY CASCADE;
 TRUNCATE TABLE riwayat_latihan RESTART IDENTITY CASCADE;
