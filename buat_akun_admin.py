@@ -120,6 +120,8 @@ def registrasi_admin():
 
         garis()
         print("[1] Daftar")
+        print("[2] Batal")
+
 
         pilih = input("\nPilih menu: ")
 
@@ -146,6 +148,10 @@ def registrasi_admin():
             print("Registrasi berhasil!")
             input("\nAkun admin telah dibuat")
 
+        elif pilih == "2":
+            print("\nRegistrasi admin dibatalkan.")
+            jeda()
+        
         else:
             print("Pilihan tidak tersedia.")
             jeda()
