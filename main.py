@@ -2,9 +2,9 @@ import psycopg2
 
 from koneksi import buka_koneksi
 from bantuan import garis, judul, jeda, clear              
-from akun import registrasi, login                          
+from akun import registrasi, login                        
 from riwayat import tampilkan_riwayat
-from latihan import mulai_latihan, menu_admin
+from latihan import mulai_latihan, menu_admin, tampilkan_prioritas
 
 # =====================================
 # MENU MAHASISWA
@@ -23,7 +23,9 @@ def menu_mahasiswa(data_pengguna):
 
         print("[1] Mulai Latihan")
         print("[2] Riwayat Latihan")
-        print("[3] Logout")
+        print("[3] Prioritas Belajar")
+        print("[4] Logout")
+
 
         pilih = input("\nPilih menu: ")
 
@@ -34,6 +36,11 @@ def menu_mahasiswa(data_pengguna):
             tampilkan_riwayat(id_pengguna)
 
         elif pilih == "3":
+            tampilkan_prioritas(id_pengguna)
+            jeda()
+
+
+        elif pilih == "4":
             print("\nApakah Anda yakin ingin logout?")
             print("[1] Ya")
             print("[2] Tidak")
