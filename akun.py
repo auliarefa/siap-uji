@@ -238,7 +238,6 @@ def login():
         jeda()
         return (data[0][0], data[0][1], data[0][3])
 
-    else:
-        print("Password salah.")
-        jeda()
-        return None
+    print("Password salah.")
+    jeda()
+    return None
