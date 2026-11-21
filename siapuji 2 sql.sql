@@ -10,6 +10,9 @@ password_hash VARCHAR(255),
 id_role INTEGER REFERENCES role_pengguna (id_role)
 );
 
+ALTER TABLE pengguna
+ADD CONSTRAINT unique_username UNIQUE (username);
+
 CREATE TABLE materi(
 id_materi SERIAL PRIMARY KEY,
 nama_materi VARCHAR(100)
