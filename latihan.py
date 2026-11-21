@@ -89,7 +89,6 @@ def ubah_materi():
 
         print("+----+--------------------------+")
 
-
         id_materi = input("ID Materi : ").strip()
 
         if not id_materi:
@@ -149,46 +148,76 @@ def ubah_materi():
 
 
 def hapus_materi():
-    clear()
-    judul("NONAKTIFKAN MATERI")
+    while True:
+        clear()
+        judul("NONAKTIFKAN MATERI")
 
-    id_materi = input("ID Materi : ")
+        daftar = ambil_data("""
+            SELECT id_materi, nama_materi
+            FROM materi
+            ORDER BY id_materi
+        """)
 
-    data = ambil_data("""
-        SELECT nama_materi, status_aktif
-        FROM materi
-        WHERE id_materi = %s
-    """, (id_materi,))
+        print("+----+--------------------------+")
+        print("| No | Nama Materi              |")
+        print("+----+--------------------------+")
 
-    if len(data) == 0:
-        print("Materi tidak ditemukan.")
-        jeda()
-        return
+        for materi in daftar:
+            print("| {:<2} | {:<24} |".format(
+                materi[0], materi[1]
+            ))
 
-    if not data[0][1]:
-        print("Materi sudah nonaktif.")
-        jeda()
-        return
+        print("+----+--------------------------+")
+        
+        id_materi = input("ID Materi : ").strip()
 
-    print("Nama Materi:", data[0][0])
-    print("\nApakah Anda yakin ingin menonaktifkan materi ini?")
-    print("[1] Ya, Nonaktifkan")
-    print("[2] Batal")
+        if not id_materi:
+            print("\nID materi tidak boleh kosong.")
+            jeda()
+            clear()
+            judul("NONAKTIFKAN MATERI")
+            return
 
-    pilih = input("\nPilih menu: ")
+        if not id_materi.isdigit():
+            print("\nID materi harus berupa angka.")
+            jeda()
+            return
 
-    if pilih == "1":
-        jalankan("""
-            UPDATE materi
-            SET status_aktif = FALSE
+        data = ambil_data("""
+            SELECT nama_materi, status_aktif
+            FROM materi
             WHERE id_materi = %s
         """, (id_materi,))
 
-        print("Materi berhasil dinonaktifkan.")
-    else:
-        print("Penonaktifan dibatalkan.")
+        if len(data) == 0:
+            print("Materi tidak ditemukan.")
+            jeda()
+            return
 
-    jeda()
+        if not data[0][1]:
+            print("Materi sudah nonaktif.")
+            jeda()
+            return
+
+        print("Nama Materi:", data[0][0])
+        print("\nApakah Anda yakin ingin menonaktifkan materi ini?")
+        print("[1] Ya, Nonaktifkan")
+        print("[2] Batal")
+
+        pilih = input("\nPilih menu: ")
+
+        if pilih == "1":
+            jalankan("""
+                UPDATE materi
+                SET status_aktif = FALSE
+                WHERE id_materi = %s
+            """, (id_materi,))
+
+            print("Materi berhasil dinonaktifkan.")
+        else:
+            print("Penonaktifan dibatalkan.")
+
+        jeda()
 
 def aktifkan_materi():
     clear()
@@ -270,7 +299,6 @@ def menu_materi():
             ubah_materi()
 
         elif pilih == "4":
-            tampilkan_materi(semua=True)
             hapus_materi()
 
         elif pilih == "5":
