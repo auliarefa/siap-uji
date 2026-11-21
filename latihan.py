@@ -854,7 +854,6 @@ def mulai_latihan(id_pengguna):
         print("[2] Kembali ke Menu Mahasiswa")
 
         while True:
-            clear()
             pilih = input("\nPilih menu: ")
 
             if pilih == "1":
