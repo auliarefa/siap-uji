@@ -697,6 +697,14 @@ def ubah_soal():
             jeda()
             continue
 
+        clear()
+        judul("UBAH SOAL")
+
+        print("ID Materi:", id_materi)
+        print("Nama Materi:", materi[0][0])
+        print("ID Soal:", id_soal)
+        print("-" * 40)
+
         print("\nSilakan masukkan data soal yang baru.")
         print("\nPertanyaan Lama:", data[0][0])
         pertanyaan = input("\nPertanyaan baru  : ").strip()
@@ -830,7 +838,7 @@ def hapus_soal():
             print("\nID Soal:", data[0])
             print("Pertanyaan:", data[1])
 
-        id_soal = input("\nID Soal : ").strip()
+        id_soal = input("\nID Soal yang ingin dinonaktifkan : ").strip()
 
         if not id_soal:
             print("ID soal tidak boleh kosong.")
@@ -945,7 +953,7 @@ def aktifkan_soal():
             print("\nID Soal:", data[0])
             print("Pertanyaan:", data[1])
 
-        id_soal = input("\nID Soal : ").strip()
+        id_soal = input("\nID Soal yang ingin diaktifkan : ").strip()
 
         if not id_soal:
             print("ID soal tidak boleh kosong.")
@@ -970,6 +978,14 @@ def aktifkan_soal():
             print("Soal tidak ditemukan pada materi tersebut.")
             jeda()
             continue
+
+        clear()
+        judul("AKTIFKAN KEMBALI SOAL")
+
+        print("ID Materi:", id_materi)
+        print("Nama Materi:", materi[0][0])
+        print("ID Soal:", id_soal)
+        print("-" * 40)
 
         print("\nPertanyaan:", data[0][0])
         print("A.", data[0][1])
