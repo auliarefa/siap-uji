@@ -43,29 +43,62 @@ def tampilkan_materi(semua=False):
 # =====================================
 
 def tambah_materi():
-    clear()
-    judul("TAMBAH MATERI")
+    while True:
+        clear()
+        judul("TAMBAH MATERI")
 
-    nama = input("Nama Materi : ")
+        daftar = ambil_data("""
+            SELECT id_materi, nama_materi
+            FROM materi
+            ORDER BY id_materi
+        """)
+        
+        print("+----+--------------------------+")
+        print("| No | Nama Materi              |")
+        print("+----+--------------------------+")
 
-    garis()
-    print("[1] Simpan")
-    print("[2] Batal")
+        for materi in daftar:
+            print("| {:<2} | {:<24} |".format(
+                materi[0], materi[1]
+            ))
 
-    pilih = input("\nPilih menu: ")
+        print("+----+--------------------------+")
 
-    if pilih == "1":
-        jalankan("""
-            INSERT INTO materi (nama_materi)
-            VALUES (%s)
-        """, (nama,))
+        nama = input("Nama Materi : ").strip()
 
-        print("Materi berhasil ditambahkan.")
+        if not nama:
+            print("\nNama materi tidak boleh kosong.")
+            jeda()
+            clear()
+            judul("TAMBAH MATERI")
+            return
 
-    else:
-        print("Penambahan dibatalkan.")
+        if not all(huruf.isalnum() or huruf in " &+-#." for huruf in nama):
+            print("\nNama materi hanya boleh berisi huruf, angka, dan simbol &+-#.")
+            jeda()
+            return
 
-    jeda()
+        garis()
+        print("[1] Simpan")
+        print("[2] Batal")
+
+        pilih = input("\nPilih menu: ").strip()
+
+        if pilih == "1":
+            jalankan("""
+                INSERT INTO materi (nama_materi)
+                VALUES (%s)
+            """, (nama,))
+
+            print("Materi berhasil ditambahkan.")
+
+        elif pilih == "2":
+            print("Penambahan dibatalkan.")
+
+        else:
+            print("Pilihan tidak valid.")
+
+        jeda()
 
 def ubah_materi():
     while True:
@@ -123,6 +156,11 @@ def ubah_materi():
             jeda()
             return
 
+        if not all(huruf.isalnum() or huruf in " &+-#." for huruf in nama_baru):
+            print("\nNama materi hanya boleh berisi huruf, angka, dan simbol &+-#.")
+            jeda()
+            return
+
         garis()
         print("[1] Simpan Perubahan")
         print("[2] Batal")
@@ -142,7 +180,7 @@ def ubah_materi():
             print("Perubahan dibatalkan.")
 
         else:
-            print("Pilihan tidak tersedia.")
+            print("Pilihan tidak valid.")
 
         jeda()
 
@@ -155,8 +193,15 @@ def hapus_materi():
         daftar = ambil_data("""
             SELECT id_materi, nama_materi
             FROM materi
+            WHERE status_aktif = TRUE
             ORDER BY id_materi
+
         """)
+
+        if not daftar:
+            print("Tidak ada materi aktif.")
+            jeda()
+            return
 
         print("+----+--------------------------+")
         print("| No | Nama Materi              |")
@@ -184,18 +229,15 @@ def hapus_materi():
             return
 
         data = ambil_data("""
-            SELECT nama_materi, status_aktif
+            SELECT nama_materi
             FROM materi
             WHERE id_materi = %s
+            AND status_aktif = TRUE
         """, (id_materi,))
+
 
         if len(data) == 0:
             print("Materi tidak ditemukan.")
-            jeda()
-            return
-
-        if not data[0][1]:
-            print("Materi sudah nonaktif.")
             jeda()
             return
 
@@ -204,74 +246,127 @@ def hapus_materi():
         print("[1] Ya, Nonaktifkan")
         print("[2] Batal")
 
-        pilih = input("\nPilih menu: ")
+        pilih = input("\nPilih menu: ").strip()
 
         if pilih == "1":
             jalankan("""
                 UPDATE materi
                 SET status_aktif = FALSE
                 WHERE id_materi = %s
+                AND status_aktif = TRUE
             """, (id_materi,))
 
             print("Materi berhasil dinonaktifkan.")
-        else:
+
+        elif pilih == "2":
             print("Penonaktifan dibatalkan.")
+
+        else:
+            print("Pilihan tidak valid.")
 
         jeda()
 
+
 def aktifkan_materi():
-    clear()
-    judul("AKTIFKAN KEMBALI MATERI")
+    while True:
+        clear()
+        judul("AKTIFKAN KEMBALI MATERI")
 
-    koneksi = buka_koneksi()
+        koneksi = buka_koneksi()
 
-    if koneksi is None:
-        return
-
-    cursor = koneksi.cursor()
-
-    try:
-        cursor.execute("""
-            SELECT id_materi, nama_materi
-            FROM materi
-            WHERE status_aktif = FALSE
-            ORDER BY id_materi
-        """)
-
-        daftar = cursor.fetchall()
-
-        if len(daftar) == 0:
-            print("Tidak ada materi nonaktif.")
-            jeda()
+        if koneksi is None:
             return
 
-        for data in daftar:
-            print(data[0], "-", data[1])
+        cursor = koneksi.cursor()
 
-        id_materi = input("\nMasukkan ID materi yang ingin diaktifkan: ")
+        try:
+            cursor.execute("""
+                SELECT id_materi, nama_materi
+                FROM materi
+                WHERE status_aktif = FALSE
+                ORDER BY id_materi
+            """)
 
-        cursor.execute("""
-            UPDATE materi
-            SET status_aktif = TRUE
-            WHERE id_materi = %s
-              AND status_aktif = FALSE
-        """, (id_materi,))
+            daftar = cursor.fetchall()
 
-        if cursor.rowcount > 0:
-            koneksi.commit()
-            print("Materi berhasil diaktifkan kembali.")
-        else:
-            print("ID materi tidak ditemukan atau sudah aktif.")
+            if not daftar:
+                print("Tidak ada materi nonaktif.")
+                jeda()
+                return
 
-    except psycopg2.Error as error:
-        koneksi.rollback()
-        print("Gagal mengaktifkan materi:", error)
+            print("+----+--------------------------+")
+            print("| No | Nama Materi              |")
+            print("+----+--------------------------+")
 
-    finally:
-        cursor.close()
-        koneksi.close()
+            for materi in daftar:
+                print("| {:<2} | {:<24} |".format(
+                    materi[0], materi[1]
+                ))
 
-    jeda()
+            print("+----+--------------------------+")
+
+            id_materi = input("ID Materi : ").strip()
+
+            if not id_materi:
+                print("\nID materi tidak boleh kosong.")
+                jeda()
+                return
+
+            if not id_materi.isdigit():
+                print("\nID materi harus berupa angka.")
+                jeda()
+                return
+
+            cursor.execute("""
+                SELECT nama_materi
+                FROM materi
+                WHERE id_materi = %s
+                AND status_aktif = FALSE
+            """, (id_materi,))
+
+            data = cursor.fetchone()
+
+            if data is None:
+                print("Materi tidak ditemukan atau sudah aktif.")
+                jeda()
+                return
+
+            print("Nama Materi:", data[0])
+            print("\nApakah Anda yakin ingin mengaktifkan materi ini?")
+            print("[1] Ya, Aktifkan")
+            print("[2] Batal")
+
+            pilih = input("\nPilih menu: ").strip()
+
+            if pilih == "1":
+                cursor.execute("""
+                    UPDATE materi
+                    SET status_aktif = TRUE
+                    WHERE id_materi = %s
+                    AND status_aktif = FALSE
+                """, (id_materi,))
+
+                if cursor.rowcount > 0:
+                    koneksi.commit()
+                    print("Materi berhasil diaktifkan kembali.")
+                else:
+                    print("Materi gagal diaktifkan.")
+
+            elif pilih == "2":
+                print("Pengaktifan dibatalkan.")
+
+            else:
+                print("Pilihan tidak valid.")
+
+        except psycopg2.Error as error:
+            koneksi.rollback()
+            print("Gagal mengaktifkan materi:", error)
+
+        finally:
+            cursor.close()
+            koneksi.close()
+
+        jeda()
 
 
 def menu_materi():
@@ -308,7 +403,7 @@ def menu_materi():
             break
 
         else:
-            print("Pilihan tidak tersedia.")
+            print("Pilihan tidak valid.")
             jeda()
 
 
