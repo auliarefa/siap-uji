@@ -411,9 +411,9 @@ def menu_materi():
 # MENAMPILKAN DAFTAR SOAL
 # =====================================
 
-def tampilkan_daftar_soal():
+def tampilkan_daftar_soal(judul_tabel ="DAFTAR SOAL"):
     clear()
-    judul("DAFTAR SOAL")
+    judul(judul_tabel)
 
     daftar = ambil_data("""
         SELECT
@@ -515,7 +515,7 @@ def tambah_soal():
         clear()
         judul("TAMBAH SOAL")
 
-        tampilkan_materi()
+        tampilkan_daftar_soal(judul_tabel ="TAMBAH SOAL")
 
         id_materi = input("\nID Materi : ")
 
@@ -625,7 +625,7 @@ def ubah_soal():
         clear()
         judul("UBAH SOAL")
 
-        tampilkan_materi()
+        tampilkan_daftar_soal(judul_tabel ="UBAH SOAL")
 
         id_materi = input("\nID Materi : ").strip()
 
@@ -782,7 +782,7 @@ def hapus_soal():
         clear()
         judul("NONAKTIFKAN SOAL")
 
-        tampilkan_materi()
+        tampilkan_daftar_soal(judul_tabel ="NONAKTIFKAN SOAL")
 
         id_materi = input("\nID Materi : ").strip()
 
@@ -803,7 +803,7 @@ def hapus_soal():
         """, (id_materi,))
 
         if len(materi) == 0:
-            print("Materi tidak ditemukan.")
+            print("Materi tidak ditemukan atau Nonaktif.")
             jeda()
             continue
 
@@ -841,6 +841,14 @@ def hapus_soal():
             print("ID soal harus berupa angka.")
             jeda()
             return
+
+        clear()
+        judul("NONAKTIFKAN SOAL")
+
+        print("ID Materi:", id_materi)
+        print("Nama Materi:", materi[0][0])
+        print("ID Soal:", id_soal)
+        print("-" * 40)
 
         data = ambil_data("""
             SELECT pertanyaan, pilihan_a, pilihan_b, pilihan_c, pilihan_d,
@@ -893,7 +901,7 @@ def aktifkan_soal():
         clear()
         judul("AKTIFKAN KEMBALI SOAL")
 
-        tampilkan_materi()
+        tampilkan_daftar_soal(judul_tabel ="NONAKTIFKAN SOAL")
 
         id_materi = input("\nID Materi : ").strip()
 
