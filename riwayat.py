@@ -30,11 +30,11 @@ def tampilkan_riwayat(id_pengguna):
         print("Berikut riwayat latihan Anda:\n")
         print("+----+----------------------+------------+-------+")
 
-        for nomor, data in enumerate(daftar, start=1):
+        for data in daftar:
             tanggal = data[2].strftime("%d-%m-%Y")
 
             print("| {:<2} | {:<20} | {:<10} | {:>5} |".format(
-                nomor, data[1], tanggal, format(float(data[3]), ".2f")
+                data[0], data[1], tanggal, format(float(data[3]), ".2f")
             ))
 
         print("+----+----------------------+------------+-------+")
