@@ -125,7 +125,7 @@ def registrasi():
             print("Nama Lengkap :", nama)
             print("Username :", username)
 
-            password = input("Password     : ")
+            password = input("Password     : ").strip()
 
             if not password:
                 pesan_error = "password tidak boleh kosong."
@@ -167,17 +167,22 @@ def registrasi():
             if len(role) == 0:
                 print("Role Mahasiswa belum tersedia.")
                 jeda()
-                return
+                return False
 
             password_hash = buat_hash(password)
 
-            jalankan("""
+            hasil = jalankan("""
                 INSERT INTO pengguna
                 (nama_pengguna, username, password_hash, id_role)
                 VALUES (%s, %s, %s, %s)
             """, (nama, username, password_hash, role[0][0]))
 
-            print("Registrasi berhasil!")
+            if hasil == 0:
+                print("\nRegistrasi gagal. Data tidak berhasil disimpan.")
+                jeda()
+                return False
+
+            print("\nRegistrasi berhasil!")
             input("\nTekan ENTER untuk melanjutkan ke login...")
             return True
 
